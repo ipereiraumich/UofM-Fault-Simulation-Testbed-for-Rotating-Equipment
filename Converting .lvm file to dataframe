@@ -1,0 +1,32 @@
+import io
+import pandas as pd
+
+def parse_lvm(path:str)->pd.DataFrame: # Function to read lvm files as dataframe
+    with open(path,'rt') as lvm:
+        buf=io.StringIO()
+        for line in lvm:
+            buf.write(line)
+            if line[0:3]=='***':
+                #Everything before was a header, make a new buffer
+                buf.close()
+                buf=io.StringIO()
+
+    buf.seek(0)
+    return pd.read_csv(buf,sep='\t')
+
+# Specify the directory where the data set was saved
+load_directory = r'D:\OneDrive - Umich\PhD_Barton_Group\Journal papers\Machine 2 - Unbalance\unbalance DT - 4 probes V7\DE Rotor\Database'  
+
+# List all files in the directory
+files = os.listdir(load_directory)
+
+# Construct the full file path
+file_path = os.path.join(load_directory, rotor_files[out_cont])
+
+# Loading the arrays from the specified directory
+loaded = parse_lvm(file_path)
+
+prob 1 = loaded.iloc[:,1] # Extracting experimental data from the dataframe - Vertical proximity prob 1
+prob 2 = loaded.iloc[:,2] # Extracting experimental data from the dataframe - Horizontal proximity prob 2
+prob 3 = loaded.iloc[:,3] # Extracting experimental data from the dataframe - Vertical proximity prob 3
+prob 4 = loaded.iloc[:,4] # Extracting experimental data from the dataframe - Horizontal proximity prob 4
